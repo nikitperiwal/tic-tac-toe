@@ -18,4 +18,3 @@ Alpha–beta pruning is a search algorithm that seeks to decrease the number of 
 2.	User Defined<br>
   a.	mainwindow<br>
   b.	tictactoe<br>
-  c.	AI<br>
