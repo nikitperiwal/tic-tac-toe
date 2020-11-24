@@ -1,6 +1,4 @@
 from math import inf
-import numpy as np
-
 
 class TicTacToe:
     def __init__(self):
@@ -138,6 +136,18 @@ class TicTacToe:
         return False
 
     def alpha_beta(self, depth, alpha, beta, player):
+        """
+        Function which uses the alpha-beta pruning to return the best position for the player.
+        Parameters:
+            depth : Number of empty places in board.
+            alpha : The best (highest-value) choice we have found along the path of Maximizer.
+            beta  : The best (lowest-value) choice we have found along the path of Minimizer.
+            player: Selecting the player to return the best position
+        Returns:
+            (row, col): The best possible move for the player
+            alpha     : The best (highest-value) choice we have found along the path of Maximizer.
+            beta      : The best (lowest-value) choice we have found along the path of Minimizer.
+        """
         row = -1
         col = -1
         if depth == 0 or self.checkWin():
@@ -184,9 +194,7 @@ class TicTacToe:
                 if self.validPos(turn_index):
                     break
         else:
-            num = np.arange(0, 9).reshape(3, 3)
-            pos = np.argwhere(num == int(btnNumber)-1)
-            turn_index = [int(pos[0, 0]), int(pos[0, 1])]
+            turn_index = (btnNumber//3, btnNumber%3)
         return turn_index
 
     def bestMovePlayer2(self):
