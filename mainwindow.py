@@ -1,21 +1,20 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from tictactoe import TicTacToe
-import sys
-
-
-game = TicTacToe()
 
 
 class Ui_MainWindow(object):
 
-    def setupUi(self, MainWindow):
+    def __init__(self, MainWindow, game_obj):
         self.iconX = QtGui.QIcon()
         self.iconX.addPixmap(QtGui.QPixmap("Resources/X.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.iconO = QtGui.QIcon()
         self.iconO.addPixmap(QtGui.QPixmap("Resources/Y.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.iconGame = QtGui.QIcon()
         self.iconGame.addPixmap(QtGui.QPixmap("Resources/Logo.PNG"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_list = [0] * 9
+        self.game = game_obj
+        self.setupUi(MainWindow)
 
+    def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(391, 571)
         MainWindow.setMinimumSize(QtCore.QSize(391, 571))
@@ -153,7 +152,6 @@ class Ui_MainWindow(object):
         self.btn_TTT7.setIconSize(QtCore.QSize(90, 90))
         self.btn_TTT8.setIconSize(QtCore.QSize(90, 90))
         self.btn_TTT9.setIconSize(QtCore.QSize(90, 90))
-        self.btn_list = [0] * 9
 
         self.frm_ScoreBoard = QtWidgets.QFrame(self.frm_TicTacToe)
         self.frm_ScoreBoard.setGeometry(QtCore.QRect(10, 10, 371, 71))
@@ -259,7 +257,7 @@ class Ui_MainWindow(object):
         self.btn_TTT7.setIcon(QtGui.QIcon())
         self.btn_TTT8.setIcon(QtGui.QIcon())
         self.btn_TTT9.setIcon(QtGui.QIcon())
-        game.resetGame()
+        self.game.resetGame()
 
     def resetForm(self):
         self.txt_AIScore.setText("0")
@@ -282,7 +280,7 @@ class Ui_MainWindow(object):
         msg.exec_()
 
     def userTurn(self, indexes, player="User"):
-        result = game.turnPlayed(indexes)
+        result = self.game.turnPlayed(indexes)
         if None == result:
             if player == "User":
                 self.AITurn()
@@ -298,19 +296,7 @@ class Ui_MainWindow(object):
             self.resetGamePanel()
 
     def AITurn(self):
-        i, j = game.bestMovePlayer2()
+        i, j = self.game.bestMovePlayer2()
         index = i*3+j
         self.changeButtonIcon(index, icon='O')
         self.userTurn((i, j), player="AI")
-
-
-if __name__ == "__main__":
-    if not QtWidgets.QApplication.instance():
-        app = QtWidgets.QApplication(sys.argv)
-    else:
-        app = QtWidgets.QApplication.instance()
-    MainForm = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainForm)
-    MainForm.show()
-    app.exec_()
