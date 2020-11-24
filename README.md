@@ -11,11 +11,11 @@ Alpha–beta pruning is a search algorithm that seeks to decrease the number of 
 
 
 ## Modules
-1.	Built-in
-  a.	sys
-  b.	PyQt5
-  c.	math
-2.	User Defined
-  a.	mainwindow
-  b.	tictactoe
-  c.	AI
+1.	Built-in<br>
+  a.	sys<br>
+  b.	PyQt5<br>
+  c.	math<br><br>
+2.	User Defined<br>
+  a.	mainwindow<br>
+  b.	tictactoe<br>
+  c.	AI<br>
