@@ -4,6 +4,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
 
     def __init__(self, MainWindow, game_obj):
+        """
+        Initialises the GameWindow and sets the some values.
+        Also, sets the game object.
+        Parameters:
+            MainWindow : MainWindow object in which the UI is to be displayed.
+            game_obj   : TicTacToe game object in which the game is to be played.
+        """
         self.iconX = QtGui.QIcon()
         self.iconX.addPixmap(QtGui.QPixmap("Resources/X.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.iconO = QtGui.QIcon()
@@ -15,6 +22,11 @@ class Ui_MainWindow(object):
         self.setupUi(MainWindow)
 
     def setupUi(self, MainWindow):
+        """
+        Sets up the UI in the mainwindow passed.
+        Parameters:
+            MainWindow : MainWindow object in which the UI is to be displayed.
+        """
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(391, 571)
         MainWindow.setMinimumSize(QtCore.QSize(391, 571))
@@ -208,6 +220,11 @@ class Ui_MainWindow(object):
         self.userFunctions()
 
     def retranslateUi(self, MainWindow):
+        """
+        Sets the texts in window objects which can be translated.
+        Parameters:
+            MainWindow : MainWindow object in which the UI is to be displayed.
+        """
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "TicTacToe"))
         self.btn_Restart.setText(_translate("MainWindow", "Restart Game"))
@@ -217,6 +234,9 @@ class Ui_MainWindow(object):
         self.lbl_PlayerDisplay.setText(_translate("MainWindow", "Player"))
 
     def userFunctions(self):
+        """
+        Connects the button pressed events with their respective functions.
+        """
         self.btn_TTT1.clicked.connect(lambda: self.buttonPressed(0))
         self.btn_TTT2.clicked.connect(lambda: self.buttonPressed(1))
         self.btn_TTT3.clicked.connect(lambda: self.buttonPressed(2))
@@ -229,6 +249,12 @@ class Ui_MainWindow(object):
         self.btn_Restart.clicked.connect(lambda: self.resetForm())
 
     def changeButtonIcon(self, index, icon='X'):
+        """
+        Changes the button icons of the index passed in the form.
+        Parameters:
+            index : Contains index of the button to change icon of.
+            icon  : Contains the icon to change to.
+        """
         button_list = [self.btn_TTT1, self.btn_TTT2, self.btn_TTT3,
                        self.btn_TTT4, self.btn_TTT5, self.btn_TTT6,
                        self.btn_TTT7, self.btn_TTT8, self.btn_TTT9]
@@ -241,12 +267,21 @@ class Ui_MainWindow(object):
         button_list[index].setIcon(icon)
 
     def buttonPressed(self, index, icon='X'):
+        """
+        Function to handle what to do if button pressed.
+        Parameters:
+            index : Contains index of the button to change icon of.
+            icon  : Contains the icon to change to.
+        """
         if self.btn_list[index] == 0:
             self.changeButtonIcon(index, icon)
             i, j = index // 3, index % 3
             self.userTurn((i, j))
 
     def resetGamePanel(self):
+        """
+        Resets the game panel, game object and button icons.
+        """
         self.btn_list = [0] * 9
         self.btn_TTT1.setIcon(QtGui.QIcon())
         self.btn_TTT2.setIcon(QtGui.QIcon())
@@ -260,11 +295,19 @@ class Ui_MainWindow(object):
         self.game.resetGame()
 
     def resetForm(self):
+        """
+        Resets the whole form, along with the score board.
+        """
         self.txt_AIScore.setText("0")
         self.txt_PlayerScore.setText("0")
         self.resetGamePanel()
 
     def increaseScore(self, player="User"):
+        """
+        Increases Score of the player passed in the scoreboard.
+        Parameters:
+            player : Player to increase the score of.
+        """
         if player == "User":
             num = int(self.txt_PlayerScore.text()) + 1
             self.txt_PlayerScore.setText(str(num))
@@ -273,6 +316,11 @@ class Ui_MainWindow(object):
             self.txt_AIScore.setText(str(num))
 
     def gameResult(self, result):
+        """
+        Displays a popup message with the result for the game.
+        Parameters:
+            result : the result to print in the popup message.
+        """
         msg = QtWidgets.QMessageBox()
         msg.setWindowIcon(self.iconGame)
         msg.setWindowTitle("Result")
@@ -280,6 +328,14 @@ class Ui_MainWindow(object):
         msg.exec_()
 
     def userTurn(self, indexes, player="User"):
+        """
+        Function to handle the user turn.
+        Updates the game object with the user-turn and gets the result.
+        Prints the appropriate result and resets game when game ends.
+        Parameters:
+            indexes: indexes of the move to play. (ith, jth)
+            player : Player to play the turn of.
+        """
         result = self.game.turnPlayed(indexes)
         if None == result:
             if player == "User":
@@ -296,6 +352,11 @@ class Ui_MainWindow(object):
             self.resetGamePanel()
 
     def AITurn(self):
+        """
+        Function to handle the AI turn.
+        Changes the button icon of the move played.
+        Also plays the turn in the indexes predicted.
+        """
         i, j = self.game.bestMovePlayer2()
         index = i*3+j
         self.changeButtonIcon(index, icon='O')

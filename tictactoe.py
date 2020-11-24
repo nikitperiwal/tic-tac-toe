@@ -1,5 +1,6 @@
 from math import inf
 
+
 class TicTacToe:
     def __init__(self):
         """
@@ -35,8 +36,8 @@ class TicTacToe:
         """
         Checks whether the game has been won or not.
         Returns:
-            True: If the game has been won.
-            False: If the game hasn't been won.
+            True  : If the game has been won.
+            False : If the game hasn't been won.
         """
         if self.board_state[0][0] == self.board_state[1][1] == self.board_state[2][2] == self.player:
             return True
@@ -53,8 +54,8 @@ class TicTacToe:
         """
         Checks whether the game is a draw or not.
         Returns:
-            True: If the game is a draw.
-            False: If the game isn't a draw.
+            True  : If the game is a draw.
+            False : If the game isn't a draw.
         """
         if self.board_left == 0:
             return True
@@ -84,9 +85,9 @@ class TicTacToe:
         Parameters:
             turn_index: (i-th, j-th) index of the turn to be played.
         Returns:
-            True : If the game has been won.
-            False: If the game is a draw.
-            None : If there is no result.
+            True  : If the game has been won.
+            False : If the game is a draw.
+            None  : If there is no result.
         """
         self.updateBoardState(turn_index)
         result = self.checkWin()
@@ -106,9 +107,9 @@ class TicTacToe:
         """
         Check who is going to win and send an appropriate score according to the result.
         Returns:
-             10: If, the player-1 wins.
-            -10: If, the player-2 wins.
-              0: If, it is a draw.
+             10 : If, the player-1 wins.
+            -10 : If, the player-2 wins.
+              0 : If, it is a draw.
         """
         temp = self.player
         self.player = 'X'
@@ -128,8 +129,8 @@ class TicTacToe:
         Parameters:
             turn_index: (i-th, j-th) position of the turn to be played.
         Returns:
-            True : If the position is valid.
-            False: If the position is invalid.
+            True  : If the position is valid.
+            False : If the position is invalid.
         """
         if self.board_state[turn_index[0]][turn_index[1]] == '.':
             return True

@@ -5,6 +5,9 @@ from mainwindow import Ui_MainWindow
 
 
 def openGameWindow():
+    """
+    Starts the game, and opens the game Window.
+    """
     if not QtWidgets.QApplication.instance():
         app = QtWidgets.QApplication(sys.argv)
     else:
