@@ -1,4 +1,5 @@
-from AI import Alpha_Beta
+from math import inf
+import numpy as np
 
 
 class TicTacToe:
@@ -7,7 +8,6 @@ class TicTacToe:
         self.board_left = 9
         self.player = 'X'
         self.initialBoardState()
-        self.ai = Alpha_Beta()
 
     def initialBoardState(self):
         self.board_state = [['.', '.', '.'],
@@ -15,8 +15,6 @@ class TicTacToe:
                             ['.', '.', '.']]
 
     def updateBoardState(self, turn_index):
-        if self.board_state[turn_index[0]][turn_index[1]] != '.':
-            return False
         if self.player == 'X':
             self.board_state[turn_index[0]][turn_index[1]] = 'X'
         else:
@@ -66,30 +64,87 @@ class TicTacToe:
                 self.swapPlayer()
                 return None
 
-    def bestMoveAi(self):
-        """Function that uses alpha-beta pruning to evaluate the best move for the computer."""
-        (m, turn_index) = self.ai.max_ab(self.board_state, -2, 2)
-        return turn_index
+    def getScore(self):
+        # Checks whos going to win
+        temp = self.player
+        self.player = 'X'
+        if self.checkWin():
+            self.player = temp
+            return 10
+        self.player = 'O'
+        if self.checkWin():
+            self.player = temp
+            return -10
+        self.player = temp
+        return 0
 
-    def bestMoveHelp(self):
+    def validPos(self, turn_index):
+        if self.board_state[turn_index[0]][turn_index[1]] == '.':
+            return True
+        return False
+
+    def ai(self, depth, alpha, beta, player):
+        row = -1
+        col = -1
+        if depth == 0 or self.checkWin():
+            return [(row, col), self.getScore()]
+
+        else:
+            for i in range(0, 3):
+                for j in range(0, 3):
+                    if self.board_state[i][j] == '.':
+                        self.board_state[i][j] = player
+
+                        if player == 'X':
+                            score = self.ai(depth - 1, alpha, beta, 'O')
+                            if score[1] > alpha:
+                                alpha = score[1]
+                                row = i
+                                col = j
+
+                        else:
+                            score = self.ai(depth - 1, alpha, beta, 'X')
+                            if score[1] < beta:
+                                beta = score[1]
+                                row = i
+                                col = j
+                        self.board_state[i][j] = '.'
+
+                        if alpha >= beta:
+                            break
+
+            if player == 'X':
+                return [(row, col), alpha]
+            else:
+                return [(row, col), beta]
+    
+    def bestMovePlayer1(self, btnNumber=-1):
         """Function that uses alpha-beta pruning to evaluate the best move for the player."""
-        (m, turn_index) = self.ai.min_ab(self.board_state, -2, 2)
-        return turn_index
+        if btnNumber == -1:
+            while True:
+                turn_index, m = self.ai(self.board_left, -inf, inf, 'X')
+                if self.validPos(turn_index):
+                    break
+        else:
+            num = np.arange(0, 9).reshape(3, 3)
+            pos = np.argwhere(num == int(btnNumber)-1)
+            turn_index = [int(pos[0, 0]), int(pos[0, 1])]
+        self.turnPlayed(turn_index)
 
-    def printBoardState(self):
-        print("Board state: ")
-        print(self.board_state[0])
-        print(self.board_state[1])
-        print(self.board_state[2], '\n')
+    def bestMovePlayer2(self):
+        """Function that uses alpha-beta pruning to evaluate the best move for the computer."""
+        while True:
+            turn_index, m = self.ai(self.board_left, -inf, inf, 'O')
+            if self.validPos(turn_index):
+                break
+        return turn_index
+        self.turnPlayed(turn_index)
 
 
 if __name__ == "__main__":
-    obj = TicTacToe()
-    print(obj.turnPlayed((0, 2)))
-    obj.printBoardState()
-    print(obj.turnPlayed((1, 0)))
-    obj.printBoardState()
-    print(obj.turnPlayed((0, 0)))
-    obj.printBoardState()
-    print(obj.turnPlayed((0, 1)))
-    obj.printBoardState()
+    ttt = TicTacToe()
+    while True:
+        ttt.bestMovePlayer1(-1)
+        print(ttt.board_state)
+        ttt.bestMovePlayer2()
+        print(ttt.board_state)

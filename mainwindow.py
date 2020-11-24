@@ -298,17 +298,10 @@ class Ui_MainWindow(object):
             self.resetGamePanel()
 
     def AITurn(self):
-        i, j = bestMoveAi(game.board_state)
+        i, j = game.bestMovePlayer2()
         index = i*3+j
         self.changeButtonIcon(index, icon='O')
         self.userTurn((i, j), player="AI")
-
-
-def bestMoveAi(board):
-    for i in range(3):
-        for j in range(3):
-            if board[i][j] == '.':
-                return i, j
 
 
 if __name__ == "__main__":
