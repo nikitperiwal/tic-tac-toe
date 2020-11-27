@@ -20,6 +20,6 @@ Alpha–beta pruning is a search algorithm that seeks to decrease the number of 
   b.	tictactoe<br>
 
 ## Gameplay
-![Playground](Resources/Gameplay/Initial.JPG)<br>
-![Win Dialog](Resources/Gameplay/PlayerWin.JPG)<br>
-![Lose Dialog](Resources/Gameplay/PlayerLose.JPG)<br>
+![Playground](TicTacToe/Resources/Gameplay/Initial.JPG)<br>
+![Win Dialog](TicTacToe/Resources/Gameplay/PlayerWin.JPG)<br>
+![Lose Dialog](TicTacToe/Resources/Gameplay/PlayerLose.JPG)<br>
